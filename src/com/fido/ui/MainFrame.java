@@ -22,6 +22,13 @@ import javax.swing.filechooser.FileFilter;
 import com.fido.dao.HuffmanDao;
 import java.awt.Color;
 
+/**
+ * 
+ * @author: fido
+ * @date:2017年5月21日 下午12:39:35
+ * @description：主界面
+ *
+ */
 public class MainFrame {
 
 	private JFrame frame;
@@ -85,27 +92,34 @@ public class MainFrame {
 		encodingButton.setFont(new Font("方正稚艺简体", Font.PLAIN, 26));
 		encodingButton.setBounds(157, 107, 110, 43);
 		panel.add(encodingButton);
-		encodingButton.addActionListener(new ActionListener(){ //压缩按钮的事件监听器
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String path=showChooser();
-				if(path!=null){
-					String newPath=path.substring(0, path.lastIndexOf("\\")+1);
-					newPath=newPath+path.substring(path.lastIndexOf("\\")+1, path.lastIndexOf("."))+".fido";
-					System.out.println(newPath);
-					try {
-						dao.encoding(path, newPath);
-						JOptionPane.showMessageDialog(null, "压缩成功");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-						System.out.println("压缩时候出错了");
+		encodingButton.addActionListener(new ActionListener() { // 压缩按钮的事件监听器
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String path = showChooser();
+						if (path != null) {
+							String newPath = path.substring(0,
+									path.lastIndexOf("\\") + 1);
+							newPath = newPath
+									+ path.substring(
+											path.lastIndexOf("\\") + 1,
+											path.lastIndexOf(".")) + ".fido";
+							System.out.println(newPath);
+							try {
+								long startTime=System.currentTimeMillis();   //获取开始时间
+								dao.encoding(path, newPath);
+								long endTime=System.currentTimeMillis(); //获取结束时间
+								System.out.println("压缩时间： "+(double)(endTime-startTime)/1000+"s");
+								String str = dao.count(path, newPath);
+								System.out.println("压缩比为：" + str);
+								JOptionPane.showMessageDialog(null, "压缩成功\n\r"
+										+ "压缩比为:" + str);
+							} catch (IOException e1) {
+								e1.printStackTrace();
+								System.out.println("压缩时候出错了");
+							}
+						}
 					}
-					
-				}
-				
-			}
-			
-		});
+				});
 		
 		JButton decodingButton = new JButton("解码");//解码按钮
 		decodingButton.setBackground(Color.GRAY);
@@ -113,31 +127,32 @@ public class MainFrame {
 		decodingButton.setBounds(154, 195, 113, 43);
 		panel.add(decodingButton);
 		decodingButton.addActionListener(new ActionListener(){  //解压按钮的事件监听器
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String path=showChooser();
-                if(path!=null){
-    				String newPath=path.substring(0, path.lastIndexOf("\\")+1);
-    				newPath=newPath+path.substring(path.lastIndexOf("\\")+1, path.lastIndexOf("."))+".txt";
-    				System.out.println(newPath);
-    			    try {
-    					dao.decoding(path, newPath);
-    					JOptionPane.showMessageDialog(null, "解压成功");
-    				} catch (ClassNotFoundException e1) {
-    					e1.printStackTrace();
-    					System.out.println("解压的时候文件未找到!");
-    				} catch (IOException e1) {
-    					e1.printStackTrace();
-    					System.out.println("解压的时候出错了");
-    				}
-                } 		
-				
-			}
-			
-			
-		});
-
-		
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String path = showChooser();
+						if (path != null) {
+							String newPath = path.substring(0,
+									path.lastIndexOf("\\") + 1);
+							newPath = newPath
+									+ path.substring(
+											path.lastIndexOf("\\") + 1,
+											path.lastIndexOf(".")) + ".txt";
+							System.out.println(newPath);
+							try {
+								long startTime = System.currentTimeMillis(); // 获取开始时间
+								dao.decoding(path, newPath);
+								long endTime = System.currentTimeMillis(); // 获取结束时间
+								System.out.println("解压运行时间： "
+										+ (double) (endTime - startTime) / 1000 + "s");
+								JOptionPane.showMessageDialog(null, "解压成功");
+							} catch (ClassNotFoundException e1) {
+								System.out.println("解压的时候文件未找到!");
+							} catch (IOException e1) {
+								System.out.println("解压的时候出错了");
+							}
+						}
+					}
+				});	
 		JLabel titleLabel = new JLabel("哈夫曼编码解码工具"); //标题
 		titleLabel.setForeground(Color.WHITE);
 		titleLabel.setFont(new Font("方正稚艺简体", Font.PLAIN, 35));
@@ -151,30 +166,29 @@ public class MainFrame {
 		panel.add(authorLabel);
 	}
 	
-	//弹出文件选择框，返回被选择文件的路径
-	 public String showChooser(){
-		 JFileChooser chooser=new JFileChooser();
-		 chooser.setFileFilter(new FileFilter(){  //设置可以使用的文件类型
+	// 弹出文件选择框，返回被选择文件的路径
+	public String showChooser() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileFilter(new FileFilter() { // 设置可以使用的文件类型
 			public boolean accept(File f) {
-				  if(f.getName().endsWith(".txt")||f.isDirectory()||f.getName().endsWith(".fido")){
-			          return true;
-			        }
-			        return false;
+				if (f.getName().endsWith(".txt") || f.isDirectory()
+						|| f.getName().endsWith(".fido")) {
+					return true;
+				}
+				return false;
 			}
-
 			@Override
-			public String getDescription() { //需要重写的方法
-				// TODO Auto-generated method stub
+			public String getDescription() { // 需要重写的方法
 				return null;
 			}
-		 });
-		 int returnVal = chooser.showOpenDialog(null);
-		    if(returnVal == JFileChooser.APPROVE_OPTION) {
-		    	System.out.println( chooser.getSelectedFile().getPath());
-		          return  chooser.getSelectedFile().getPath();
-	 }
-		     return null;
-     }
+		});
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			System.out.println(chooser.getSelectedFile().getPath());
+			return chooser.getSelectedFile().getPath();
+		}
+		return null;
+	}
 
 	public JFrame getFrame() {
 		return frame;

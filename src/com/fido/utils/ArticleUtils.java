@@ -38,9 +38,6 @@ public class ArticleUtils {
 						if(word==0){ //空字符串
 							break;
 						}
-//						if(word=='\n'||word=='\r'||word==' '||word=='\t'){ //换行和空格就不计
-//							continue;
-//						}
 						 if(!hashMap.containsKey(word)){ //如果这个字符第一次出现
 							 
 							 hashMap.put(word,1);
@@ -50,7 +47,6 @@ public class ArticleUtils {
 							int value=hashMap.get(word);
 							hashMap.put(word, ++value);//次数加1再放回去
 						 }
-						 buffer.append(word);
 					}
 				}
 			} catch (FileNotFoundException e) {
@@ -73,7 +69,7 @@ public class ArticleUtils {
     	 else{
     	    System.out.println("文件未找到!");
     	 }
-    	 MapAndData md=new MapAndData(hashMap,buffer.toString());
+    	 MapAndData md=new MapAndData(hashMap);
     	 return md;
     }
     /**

@@ -19,15 +19,16 @@ import com.fido.utils.TreeUtils;
 public class HuffmanTest {
 	
 	//测试ArticleDao里面的读取并计数方法
+	//@Test
     public void testReadAndCount(){
-    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试01.txt").getMap();
+    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	for(Map.Entry<Character,Integer> entry:hashMap.entrySet()){
     		 System.out.println("字符:"+entry.getKey()+"次数:"+entry.getValue());
     	}
     }
     
     //测试工具类里的快排
-   // @Test
+    //@Test
     public void testQuickSort(){
     	 List<Node> testList=new ArrayList<Node>();
     	 int j=10;
@@ -41,7 +42,7 @@ public class HuffmanTest {
     }
     
     //测试工具类里的划分函数
- //   @Test
+   // @Test
     public void testPartition(){
     	 List<Node> testList=new ArrayList<Node>();
          for(int i=1;i<11;i++){
@@ -58,57 +59,52 @@ public class HuffmanTest {
     }
     
     //测试构造哈夫曼树
+   // @Test
     public void testCreateTree(){
-    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试01.txt").getMap();
+    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
     	Node root=tree.getRoot();
     	System.out.println(root.toString());
     	System.out.println(tree.getLeafNodeList().size());
     }
     //测试前序遍历
+    //@Test
     public void testPreOrder(){
-    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试01.txt").getMap();
+    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
     	tree.preOrder(tree.getRoot());
     }
     //测试获得编码集合
-   //@Test
+ // @Test
     public void testEncodingMap(){
     	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
-    	System.out.println(ArticleUtils.readAndCount("G://测试.txt").getData());
+    	//System.out.println(ArticleUtils.readAndCount("G://测试.txt"));
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
     	FidoUtils.showMap(TreeUtils.encodingMap(tree));
     }
     //测试解码
-  //  @Test
+    @Test
     public void testDecoding(){
-    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试01.txt").getMap();
+    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
-    	System.out.println(TreeUtils.decoding("0111111111001", tree));
+    	System.out.println(TreeUtils.decoding("001011010000", tree));
     }
     //测试给定字符来编码
-   // @Test
+    //@Test
     public void testEncoding(){
     	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
     	HashMap<Character,String> encodingMap=TreeUtils.encodingMap(tree);
-    	System.out.println(TreeUtils.encoding("ajkdsfjiwajk", encodingMap));
+    	System.out.println(TreeUtils.encoding("你是垃圾辣鸡辣鸡", encodingMap));
     }
-    //测试压缩比
-    //@Test
-//    public void testCount(){
-//    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试01.txt").getMap();
-//    	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
-//    	System.out.println(TreeUtils.count(ArticleUtils.readAndCount("G://测试01.txt").getData(), tree));
-//    }
     //测试将编码结果写入新文件
-    //@Test
+    @Test
     public void testFileEncoding() throws IOException{
     	HuffmanDao dao=new HuffmanDao();
     	dao.encoding("G://测试.txt","G://测试编码.fido" );
     }
     //测试将解码结果写入文件
-  //@Test
+   //@Test
     public void testFileDecoding() throws ClassNotFoundException, IOException{
     	HuffmanDao dao=new HuffmanDao();
     	dao.decoding("G://测试编码.fido","G://测试2.txt" );

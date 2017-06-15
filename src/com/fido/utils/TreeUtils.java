@@ -58,11 +58,5 @@ public class TreeUtils {
 		return decoding.toString();
 	}
 	
-//	//计算压缩比
-//	public static String count(String encoding,HuffmanTree tree){
-//		    long previous =encoding.length()*8;
-//		    long after=(TreeUtils.encoding(encoding,tree).length());
-//		    return "压缩比为:"+previous+":"+after;	
-//	}
 
 }
