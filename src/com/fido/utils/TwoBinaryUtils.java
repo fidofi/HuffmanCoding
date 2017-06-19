@@ -28,7 +28,7 @@ public class TwoBinaryUtils {
 			bb[i] = (Integer) list.get(i);
 		}
 		bb[byteLength] = 8 - temp;// 整型数组最后一位放补0的个数
-		System.out.println("补零个数为："+bb[byteLength]);
+		System.out.println("压缩时补零个数为："+bb[byteLength]);
 		return bb;
 	}
 

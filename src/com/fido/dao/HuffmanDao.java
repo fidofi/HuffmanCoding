@@ -58,12 +58,18 @@ public class HuffmanDao {
 					bufferStr.delete(0, bufferStr.length());
 				}
 			}
+			System.out.println("缓存中还有的字符长度："+bufferStr.length());
 			if (bufferStr.length() != 0) {
 				int[] otherData = TwoBinaryUtils.str2int(bufferStr.toString());
 				for (int i = 0; i < otherData.length; i++) {
 					System.out.print(otherData[i] + " ");
 					out.getBufferOut().write(otherData[i]);
 				}
+				out.getBufferOut().flush();
+			}
+			else{ //说明补零个数为0
+				
+				out.getBufferOut().write(0);
 				out.getBufferOut().flush();
 			}
 		} catch (Exception e) {
@@ -106,6 +112,7 @@ public class HuffmanDao {
 			if (fileIn.available() <= 1) { // 读到最后两个整数(因为还要考虑到补零个数的情况，补零个数不会超过7个
 				if (fileIn.available() == 0) {
 					int zero = aa;// 补零个数
+					System.out.println("补零个数："+zero);
 					str = buffer.substring(0, buffer.length() - zero);
 					StringBuffer buffer_two = new StringBuffer();
 					for (int k = 0; k < str.length(); k++) {

@@ -69,7 +69,7 @@ public class MainFrame {
 		frame.getContentPane().setLayout(null);
 		panel=new JPanel(){
 			protected void paintComponent(Graphics g) {  
-                ImageIcon icon = new ImageIcon("src/1.jpg");  
+                ImageIcon icon = new ImageIcon(getClass().getResource("/1.jpg"));  
                 Image img = icon.getImage();  
                 g.drawImage(img, 0, 0, icon.getIconWidth(),  
                         icon.getIconHeight(), icon.getImageObserver());  
@@ -136,7 +136,7 @@ public class MainFrame {
 							newPath = newPath
 									+ path.substring(
 											path.lastIndexOf("\\") + 1,
-											path.lastIndexOf(".")) + ".txt";
+											path.lastIndexOf(".")) + "_2.txt";
 							System.out.println(newPath);
 							try {
 								long startTime = System.currentTimeMillis(); // 获取开始时间

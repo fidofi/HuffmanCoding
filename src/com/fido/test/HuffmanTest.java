@@ -77,13 +77,13 @@ public class HuffmanTest {
     //测试获得编码集合
  // @Test
     public void testEncodingMap(){
-    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
+    	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://数据结构课程设计/0109.txt").getMap();
     	//System.out.println(ArticleUtils.readAndCount("G://测试.txt"));
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
     	FidoUtils.showMap(TreeUtils.encodingMap(tree));
     }
     //测试解码
-    @Test
+  //  @Test
     public void testDecoding(){
     	HashMap<Character,Integer> hashMap=ArticleUtils.readAndCount("G://测试.txt").getMap();
     	HuffmanTree tree=new HuffmanTree(FidoUtils.getNodeList(hashMap));
