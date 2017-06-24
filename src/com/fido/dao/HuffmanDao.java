@@ -1,18 +1,22 @@
 package com.fido.dao;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +90,7 @@ public class HuffmanDao {
 		HashMap<String, Character> decodingMap = new HashMap<String, Character>();
 		File file2in = new File(path); // 待解码文件
 		FileInputStream fileIn = new FileInputStream(file2in);
+		BufferedInputStream bufferIn = new BufferedInputStream(fileIn);
 		int aa;// 代表读到的整数
 		ObjectInputStream objectIn = new ObjectInputStream(fileIn);// 用来读编码表的
 		HashMap<Character, String> encodingMap = (HashMap<Character, String>) objectIn
@@ -100,19 +105,19 @@ public class HuffmanDao {
 			decodingMap.put(keyList.get(i), valueList.get(i));
 		}
 		File file2out = new File(newPath);
-		FileOutputStream fileOut = new FileOutputStream(file2out);
-		BufferedOutputStream out = new BufferedOutputStream(fileOut);
+		FileWriter fileOut = new FileWriter(file2out);
+		BufferedWriter out = new BufferedWriter(fileOut);
 		StringBuffer buffer = new StringBuffer();
 		StringBuffer ss = new StringBuffer();// 待比较
-		while ((aa = fileIn.read()) != -1) { // 这里如果用objectIn去读会错
+		while ((aa = bufferIn.read()) != -1) { // 这里如果用objectIn去读会错
 			String str = TwoBinaryUtils.int2twobinary(aa);// 将读到的整数转为8位二进制序列
-			if (fileIn.available() != 0) {
+			if (bufferIn.available() != 0) {
 				buffer = buffer.append(str);
 			}
-			if (fileIn.available() <= 1) { // 读到最后两个整数(因为还要考虑到补零个数的情况，补零个数不会超过7个
-				if (fileIn.available() == 0) {
+			if (bufferIn.available() <= 1) { // 读到最后两个整数(因为还要考虑到补零个数的情况，补零个数不会超过7个
+				if (bufferIn.available() == 0) {
 					int zero = aa;// 补零个数
-					System.out.println("补零个数："+zero);
+					System.out.println("补零个数：" + zero);
 					str = buffer.substring(0, buffer.length() - zero);
 					StringBuffer buffer_two = new StringBuffer();
 					for (int k = 0; k < str.length(); k++) {
@@ -127,7 +132,8 @@ public class HuffmanDao {
 				for (int i = 0; i < buffer.length(); i++) {
 					ss = ss.append(buffer.charAt(i));
 					if (decodingMap.containsKey(ss.toString())) {
-						out.write(decodingMap.get(ss.toString()));// 把查找编码表后的字符写入新文件
+						char cc = decodingMap.get(ss.toString());
+						out.write(cc);// 把查找编码表后的字符写入新文件
 						ss.delete(0, ss.length());
 					}
 				}
@@ -180,4 +186,3 @@ public class HuffmanDao {
 		return str;
 	}
 }
-

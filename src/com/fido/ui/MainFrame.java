@@ -80,12 +80,6 @@ public class MainFrame {
 		panel.setLayout(null);
 		frame.setContentPane(panel);
 		
-
-		
-		
-	  
-		
-		
 		JButton encodingButton = new JButton("±àÂë");//±àÂë°´Å¥
 		encodingButton.setBackground(Color.GRAY);
 		encodingButton.setForeground(Color.BLACK);
